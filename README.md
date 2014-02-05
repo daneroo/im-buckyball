@@ -1,6 +1,12 @@
-## im-buckyball
+# im-buckyball
 
 Describe geometry, and eventually produce an agular directive containing d3.js code to produce a trucated icosahedron, a.k.a buckyball, soccer ball
+
+## TODO
+* encapsulate `pre-calculate`
+* simplify executable (buckyball.js)
+* convert to gist, and post to mbostock's http://bl.ocks.org/
+* Make an angular directive `ng-buckyball`. Review [this youtube talk on Angular with D3 ](http://www.youtube.com/watch?v=aqHBLS_6gF8).
 
 ## Geometry
 * Icosahedron - truncated icosahedron
