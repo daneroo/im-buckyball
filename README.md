@@ -2,6 +2,19 @@
 
 Describe geometry, and eventually produce an agular directive containing d3.js code to produce a trucated icosahedron, a.k.a buckyball, soccer ball
 
+## Geometry
+* Icosahedron - truncated icosahedron
+* `projection = d3.geo.azimuthal().mode("orthographic")`
+* Spherical clipping: `path(circle.clip(d));`
+
+## Precalculate 
+* figuring out `pentify`
+
+## Changes
+Trying to evolve `icosahedron-3055104.html` turned out to be a dend end.
+
+Started from `icosahedron-arcs-3061181.html` to get the sperical projection and clipping, and re-did the geometry from scratch, math was tested in `precaclulate.js`
+
 ## References
 
 * [Wikipedia Trucated Icosahedron](http://en.wikipedia.org/wiki/Truncated_icosahedron)

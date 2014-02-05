@@ -32,7 +32,7 @@
 var width = 960,
     height = 500;
 
-var origin = [0, 0],
+var origin = [0, 90],
     velocity = [.18, .06];
 
 var projection = d3.geo.azimuthal()
@@ -96,14 +96,56 @@ function icosahedron_points() {
 }
 
 function icosahedron_points2() {
+  // (0, ±1, ±3φ)
+  // (±2, ±(1+2φ), ±φ)
+  // (±1, ±(2+φ), ±2φ)
+  // var vertices = [
+  //   [0, 1, 3*φ],[0, -1, 3*φ],[0, 1, -3*φ],[0, -1, -3*φ],
+  //   [ 2,  (1+2*φ),  φ],[-2,  (1+2*φ),  φ],[ 2, -(1+2*φ),  φ],[-2, -(1+2*φ),  φ],
+  //   [ 2,  (1+2*φ), -φ],[-2,  (1+2*φ), -φ],[ 2, -(1+2*φ), -φ],[-2, -(1+2*φ), -φ],
+  //   [ 1,  (2+φ),  2*φ],[-1,  (2+φ),  2*φ],[ 1, -(2+φ),  2*φ],[-1, -(2+φ),  2*φ],
+  //   [ 1,  (2+φ), -2*φ],[-1,  (2+φ), -2*φ],[ 1, -(2+φ), -2*φ],[-1, -(2+φ), -2*φ],
+  // ];
+
+  var φ = 1.618033988749895,
+      ρ = 180 / Math.PI;
+
+
+  // icosahedron      
+  var vertices = [
+    [1,φ,0], [-1,φ,0], [1,-φ,0], [-1,-φ,0],
+    [0,1,φ], [0,-1,φ], [0,1,-φ], [0,-1,-φ],
+    [φ,0,1], [-φ,0,1], [φ,0,-1], [-φ,0,-1]
+  ];
+
+  function project(p) {
+    var x = p[0],
+        y = p[1],
+        z = p[2];
+    return [
+      Math.atan2(y, x) * ρ,
+      Math.acos(z / Math.sqrt(x * x + y * y + z * z)) * ρ - 90
+    ];
+  }
+
   var points = [],
       y = Math.atan2(1, 2) * 180 / Math.PI;
-  points.push([0, -90]);
-  points.push([0, 90]);
 
-  for (var x = 0; x < 360; x += 72) {
-    points.push([x, 72]);
-  }
+  vertices.forEach(function(v){
+    points.push(project(v));
+  });
+  // ff.slice(0,5).forEach(function(f){
+  //   // console.log('f',f);
+  //   var p=[0,0];
+  //   [0,1,2].forEach(function(i){
+  //     p[0]=p[0]+f[i][0];
+  //     p[1]=p[1]+f[i][1];
+  //   });
+  //   p[0]=p[0]/=3;
+  //   p[1]=p[1]/=3;
+  //   console.log('p',p);
+  //   points.push(p);
+  // });
 
   return points;
 }
@@ -135,9 +177,10 @@ function icosahedron_faces() {
 }
 
 function draw() {
+  point.attr("transform", function(d) { return "translate(" + projection(d) + ")"; });
   point2.attr("transform", function(d) { return "translate(" + projection(d) + ")"; });
   edge.attr("d", function(d) { return "M" + d.map(projection).join("L"); });
-  face.attr("d", function(d) { return "M" + d.map(projection).join("L"); });
+  // face.attr("d", function(d) { return "M" + d.map(projection).join("L"); });
 }
 
 </script>
